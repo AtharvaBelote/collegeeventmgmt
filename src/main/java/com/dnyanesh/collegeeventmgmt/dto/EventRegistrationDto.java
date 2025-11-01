@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public class EventRegistrationDto {
     private Long id;
-    private Long eventId;
-    private String eventName;
+    private EventDto event;  // Include full event details
     private LocalDateTime registrationDate;
     private String feedback;
     private boolean attended;

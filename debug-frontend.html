@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .error { background-color: #ffebee; }
+        .success { background-color: #e8f5e8; }
+        button { margin: 5px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Frontend API Debug</h1>
+    
+    <button onclick="testEventsAPI()">Test Events API</button>
+    <button onclick="testApprovedEventsAPI()">Test Approved Events API</button>
+    <button onclick="testCORS()">Test CORS</button>
+    <button onclick="checkLocalStorage()">Check LocalStorage</button>
+    
+    <div id="results"></div>
+
+    <script>
+        function addResult(title, content, isError = false) {
+            const div = document.createElement('div');
+            div.className = 'result ' + (isError ? 'error' : 'success');
+            div.innerHTML = `<h3>${title}</h3><pre>${content}</pre>`;
+            document.getElementById('results').appendChild(div);
+        }
+
+        async function testEventsAPI() {
+            try {
+                console.log('Testing events API...');
+                const response = await fetch('http://localhost:8080/api/events', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Origin': 'http://localhost:3000'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                addResult('Events API Success', `Found ${data.length} events:\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                addResult('Events API Error', error.message, true);
+            }
+        }
+
+        async function testApprovedEventsAPI() {
+            try {
+                const response = await fetch('http://localhost:8080/api/events/approved');
+                const data = await response.json();
+                addResult('Approved Events API Success', `Found ${data.length} approved events:\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                addResult('Approved Events API Error', error.message, true);
+            }
+        }
+
+        async function testCORS() {
+            try {
+                const response = await fetch('http://localhost:8080/api/events', {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': 'http://localhost:3000',
+                        'Access-Control-Request-Method': 'GET',
+                        'Access-Control-Request-Headers': 'Content-Type'
+                    }
+                });
+                addResult('CORS Test', `Status: ${response.status}\nHeaders: ${JSON.stringify([...response.headers.entries()], null, 2)}`);
+            } catch (error) {
+                addResult('CORS Test Error', error.message, true);
+            }
+        }
+
+        function checkLocalStorage() {
+            const token = localStorage.getItem('token');
+            const allItems = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                allItems[key] = localStorage.getItem(key);
+            }
+            addResult('LocalStorage Contents', JSON.stringify(allItems, null, 2));
+        }
+
+        // Auto-run tests
+        window.onload = function() {
+            checkLocalStorage();
+            testEventsAPI();
+            testApprovedEventsAPI();
+        };
+    </script>
+</body>
+</html>

@@ -21,7 +21,7 @@ The College Event Management System is a Spring Boot-based application designed 
 ## Technologies Used
 - **Backend**: Java, Spring Boot
 - **Security**: Spring Security, JWT
-- **Database**: PostgreSQL
+- **Database**: MySQL
 - **Build Tool**: Maven
 
 ---
@@ -32,7 +32,7 @@ The College Event Management System is a Spring Boot-based application designed 
 Ensure you have the following installed:
 - Java 17 or higher
 - Maven
-- PostgreSQL
+- MySQL
 
 ### Installation
 1. Clone the repository:
@@ -42,11 +42,11 @@ Ensure you have the following installed:
    ```
 
 2. Configure the database:
-    - Create a PostgreSQL database named `college_event_mgmt`.
+    - Create a MySQL database named `college_event_mgmt`.
     - Update the `application.properties` file with your database credentials:
       ```properties
-      spring.datasource.url=jdbc:postgresql://localhost:5432/college_event_mgmt
-      spring.datasource.username=YOUR_USERNAME
+      spring.datasource.url=jdbc:mysql://localhost:3306/college_event_mgmt
+      spring.datasource.username=root
       spring.datasource.password=YOUR_PASSWORD
       ```
 

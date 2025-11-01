@@ -22,6 +22,7 @@ public class EventParticipationService {
     private final EventRepository eventRepository;
     private final EventRegistrationRepository eventRegistrationRepository;
     private final UserRepository userRepository;
+    private final EventService eventService;
 
     // List all events (optionally filter for upcoming/past)
     public List<EventDto> listEvents(String filter) {
@@ -106,8 +107,7 @@ public class EventParticipationService {
     private EventRegistrationDto toRegDto(EventRegistration reg) {
         return EventRegistrationDto.builder()
                 .id(reg.getId())
-                .eventId(reg.getEvent().getId())
-                .eventName(reg.getEvent().getName())
+                .event(eventService.toDto(reg.getEvent()))  // Include full event details
                 .registrationDate(reg.getRegistrationDate())
                 .feedback(reg.getFeedback())
                 .attended(reg.isAttended())

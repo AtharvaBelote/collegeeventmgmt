@@ -1,0 +1,8 @@
+--Terminal 1: for DB
+mysql -u root -p
+
+--Terminal 2: for backend
+.\start-backend.ps1
+
+--Terminal 3: for frontend
+npm start
