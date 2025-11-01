@@ -37,8 +37,8 @@ Ensure you have the following installed:
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/dnyaneshagale/clgevtmgmt.git
-   cd clgevtmgmt
+   git clone https://github.com/AtharvaBelote/collegeeventmgmt.git
+   cd collegeeventmgmt
    ```
 
 2. Configure the database:
